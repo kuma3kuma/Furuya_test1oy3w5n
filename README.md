@@ -1,1 +1,0 @@
-# Furuya_test1oy3w5n
