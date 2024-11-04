@@ -1,6 +1,9 @@
 <!doctype html>
 <html>
     <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AR Days of Week</title>
         <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
         <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
@@ -9,6 +12,11 @@
     </head>
 
     <body style="margin: 0; overflow: hidden;">
+        <!-- ローディング表示 -->
+        <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; color: white; z-index: 9999;">
+            Loading... Please wait.
+        </div>
+
         <a-scene
             vr-mode-ui="enabled: false;"
             loading-screen="enabled: false;"
@@ -19,41 +27,140 @@
             gesture-detector
         >
             <a-assets>
-                <a-asset-item
-                    id="animated-asset"
-                    src="assets/asset.glb"
-                ></a-asset-item>
-                <!-- 音声ファイルを追加 -->
-                <audio id="audio-asset" src="assets/audio.mp3"></audio>
+                <!-- 3Dモデル -->
+                <a-asset-item id="pb_mon" src="assets/pb_mon.glb"></a-asset-item>
+                <a-asset-item id="pb_tue" src="assets/pb_tue.glb"></a-asset-item>
+                <a-asset-item id="pb_wed" src="assets/pb_wed.glb"></a-asset-item>
+                <a-asset-item id="pb_thu" src="assets/pb_thu.glb"></a-asset-item>
+                <a-asset-item id="pb_fri" src="assets/pb_fri.glb"></a-asset-item>
+                <a-asset-item id="pb_sat" src="assets/pb_sat.glb"></a-asset-item>
+                <a-asset-item id="pb_sun" src="assets/pb_sun.glb"></a-asset-item>
+
+                <!-- 音声ファイル -->
+                <audio id="audio_mon" src="assets/mon.mp3" preload="auto"></audio>
+                <audio id="audio_tue" src="assets/tue.mp3" preload="auto"></audio>
+                <audio id="audio_wed" src="assets/wed.mp3" preload="auto"></audio>
+                <audio id="audio_thu" src="assets/thu.mp3" preload="auto"></audio>
+                <audio id="audio_fri" src="assets/fri.mp3" preload="auto"></audio>
+                <audio id="audio_sat" src="assets/sat.mp3" preload="auto"></audio>
+                <audio id="audio_sun" src="assets/sun.mp3" preload="auto"></audio>
             </a-assets>
 
-            <a-marker
-                id="animated-marker"
-                type="pattern"
-                preset="custom"
-                url="assets/marker_sun.patt"
-                raycaster="objects: .clickable"
-                emitevents="true"
-                cursor="fuse: false; rayOrigin: mouse;"
-                id="markerA"
-            >
+            <!-- 月曜日 (Monday) -->
+            <a-marker type="pattern" url="assets/marker_mon.patt" emitevents="true">
                 <a-entity
-                    id="bowser-model"
-                    scale="0.05864129590555225 0.05864129590555225 0.05864129590555225"
+                    gltf-model="#pb_mon"
+                    scale="0.1 0.1 0.1"
                     animation-mixer="loop: repeat"
-                    gltf-model="#animated-asset"
-                    class="clickable"
-                    gesture-handler
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
                 ></a-entity>
-                <!-- a-sound 要素の追加 -->
-                <a-sound
-                    src="#audio-asset"
-                    autoplay="true"
-                    position="0 0 0"
-                ></a-sound>
+            </a-marker>
+
+            <!-- 火曜日 (Tuesday) -->
+            <a-marker type="pattern" url="assets/marker_tue.patt" emitevents="true">
+                <a-entity
+                    gltf-model="#pb_tue"
+                    scale="0.1 0.1 0.1"
+                    animation-mixer="loop: repeat"
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
+                ></a-entity>
+            </a-marker>
+
+            <!-- 水曜日 (Wednesday) -->
+            <a-marker type="pattern" url="assets/marker_wed.patt" emitevents="true">
+                <a-entity
+                    gltf-model="#pb_wed"
+                    scale="0.1 0.1 0.1"
+                    animation-mixer="loop: repeat"
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
+                ></a-entity>
+            </a-marker>
+
+            <!-- 木曜日 (Thursday) -->
+            <a-marker type="pattern" url="assets/marker_thu.patt" emitevents="true">
+                <a-entity
+                    gltf-model="#pb_thu"
+                    scale="0.1 0.1 0.1"
+                    animation-mixer="loop: repeat"
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
+                ></a-entity>
+            </a-marker>
+
+            <!-- 金曜日 (Friday) -->
+            <a-marker type="pattern" url="assets/marker_fri.patt" emitevents="true">
+                <a-entity
+                    gltf-model="#pb_fri"
+                    scale="0.1 0.1 0.1"
+                    animation-mixer="loop: repeat"
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
+                ></a-entity>
+            </a-marker>
+
+            <!-- 土曜日 (Saturday) -->
+            <a-marker type="pattern" url="assets/marker_sat.patt" emitevents="true">
+                <a-entity
+                    gltf-model="#pb_sat"
+                    scale="0.1 0.1 0.1"
+                    animation-mixer="loop: repeat"
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
+                ></a-entity>
+            </a-marker>
+
+            <!-- 日曜日 (Sunday) -->
+            <a-marker type="pattern" url="assets/marker_sun.patt" emitevents="true">
+                <a-entity
+                    gltf-model="#pb_sun"
+                    scale="0.1 0.1 0.1"
+                    animation-mixer="loop: repeat"
+                    gesture-handler="minScale: 0.05; maxScale: 0.15"
+                ></a-entity>
             </a-marker>
 
             <a-entity camera></a-entity>
         </a-scene>
+        
+        <script>
+            // アセットの読み込み完了を待つ
+            window.addEventListener('load', () => {
+                const scene = document.querySelector('a-scene');
+                scene.addEventListener('loaded', () => {
+                    // ローディング表示を非表示
+                    document.getElementById('loading').style.display = 'none';
+                });
+            });
+
+            // 各マーカーが見つかったときに音声を再生する
+            const markers = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+            markers.forEach(day => {
+                const marker = document.querySelector(`a-marker[url="assets/marker_${day}.patt"]`);
+                if (marker) {
+                    // マーカーが見つかったとき
+                    marker.addEventListener('markerFound', () => {
+                        const audio = document.querySelector(`#audio_${day}`);
+                        if (audio) {
+                            // 再生中の場合は最初から再生し直す
+                            audio.currentTime = 0;
+                            audio.play().catch(error => {
+                                console.log('Audio playback error:', error);
+                            });
+                        }
+                    });
+                    
+                    // マーカーが見失われたとき
+                    marker.addEventListener('markerLost', () => {
+                        const audio = document.querySelector(`#audio_${day}`);
+                        if (audio) {
+                            audio.pause();
+                            audio.currentTime = 0;
+                        }
+                    });
+                }
+            });
+
+            // エラーハンドリング
+            window.addEventListener('error', function(e) {
+                console.error('Error:', e.error);
+            });
+        </script>
     </body>
 </html>
