@@ -4,101 +4,146 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>AR Days of Week</title>
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+        <!-- A-Frame と AR.js のバージョンを最新の安定版に更新 -->
+        <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+        <style>
+            #loading {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                z-index: 9999;
+            }
+            .ar-only {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                z-index: 9999;
+            }
+        </style>
     </head>
 
-    <!-- ... head部分は同じ ... -->
+    <body style="margin: 0; overflow: hidden;">
+        <div id="loading">
+            <div>Loading...</div>
+            <div>カメラの使用を許可してください</div>
+        </div>
 
-<body style="margin: 0; overflow: hidden;">
-    <!-- ローディング表示を修正 -->
-    <div id="loading" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; z-index: 9999;">
-        <div>Loading Resources...</div>
-        <div>カメラの使用を許可してください</div>
-    </div>
+        <div id="arjs-video"></div>
 
-    <a-scene
-        vr-mode-ui="enabled: false;"
-        loading-screen="enabled: false;"
-        renderer="logarithmicDepthBuffer: true;"
-        arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-        id="scene"
-        embedded
-        gesture-detector
-    >
-        <!-- ... a-assets と markers は同じ ... -->
-    </a-scene>
-        
-    <script>
-        // ローディング処理を改善
-        document.addEventListener('DOMContentLoaded', function() {
-            const loadingEl = document.getElementById('loading');
-            const scene = document.querySelector('a-scene');
+        <a-scene
+            vr-mode-ui="enabled: false"
+            renderer="logarithmicDepthBuffer: true;"
+            embedded
+            arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
 
-            // シーンの読み込み完了時
-            scene.addEventListener('loaded', function () {
-                console.log('A-Frame scene loaded');
-                hideLoading();
-            });
+            <a-assets>
+                <a-asset-item id="pb_mon" src="assets/pb_mon.glb"></a-asset-item>
+                <a-asset-item id="pb_tue" src="assets/pb_tue.glb"></a-asset-item>
+                <a-asset-item id="pb_wed" src="assets/pb_wed.glb"></a-asset-item>
+                <a-asset-item id="pb_thu" src="assets/pb_thu.glb"></a-asset-item>
+                <a-asset-item id="pb_fri" src="assets/pb_fri.glb"></a-asset-item>
+                <a-asset-item id="pb_sat" src="assets/pb_sat.glb"></a-asset-item>
+                <a-asset-item id="pb_sun" src="assets/pb_sun.glb"></a-asset-item>
 
-            // カメラのセットアップ完了時
-            scene.addEventListener('camera-init', function() {
-                console.log('Camera initialized');
-            });
+                <audio id="audio_mon" src="assets/mon.mp3" preload="auto"></audio>
+                <audio id="audio_tue" src="assets/tue.mp3" preload="auto"></audio>
+                <audio id="audio_wed" src="assets/wed.mp3" preload="auto"></audio>
+                <audio id="audio_thu" src="assets/thu.mp3" preload="auto"></audio>
+                <audio id="audio_fri" src="assets/fri.mp3" preload="auto"></audio>
+                <audio id="audio_sat" src="assets/sat.mp3" preload="auto"></audio>
+                <audio id="audio_sun" src="assets/sun.mp3" preload="auto"></audio>
+            </a-assets>
 
-            // エラー発生時
-            scene.addEventListener('camera-error', function(err) {
-                console.error('Camera error:', err);
-                alert('カメラの初期化に失敗しました。ページをリロードしてカメラの使用を許可してください。');
-            });
+            <!-- マーカー設定を簡略化 -->
+            <a-marker preset="pattern" type="pattern" url="assets/marker_mon.patt">
+                <a-entity gltf-model="#pb_mon" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
 
-            // 30秒後にもし読み込みが完了していない場合は強制的に非表示
-            setTimeout(hideLoading, 30000);
+            <a-marker preset="pattern" type="pattern" url="assets/marker_tue.patt">
+                <a-entity gltf-model="#pb_tue" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
 
-            function hideLoading() {
-                if (loadingEl.style.display !== 'none') {
-                    loadingEl.style.display = 'none';
-                    console.log('Loading screen hidden');
+            <a-marker preset="pattern" type="pattern" url="assets/marker_wed.patt">
+                <a-entity gltf-model="#pb_wed" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
+
+            <a-marker preset="pattern" type="pattern" url="assets/marker_thu.patt">
+                <a-entity gltf-model="#pb_thu" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
+
+            <a-marker preset="pattern" type="pattern" url="assets/marker_fri.patt">
+                <a-entity gltf-model="#pb_fri" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
+
+            <a-marker preset="pattern" type="pattern" url="assets/marker_sat.patt">
+                <a-entity gltf-model="#pb_sat" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
+
+            <a-marker preset="pattern" type="pattern" url="assets/marker_sun.patt">
+                <a-entity gltf-model="#pb_sun" scale="0.1 0.1 0.1" position="0 0 0"></a-entity>
+            </a-marker>
+
+            <a-entity camera></a-entity>
+        </a-scene>
+
+        <script>
+            window.onload = function() {
+                // シーンの読み込みを確認
+                const scene = document.querySelector('a-scene');
+                const loading = document.getElementById('loading');
+
+                if (scene.hasLoaded) {
+                    loading.style.display = 'none';
+                } else {
+                    scene.addEventListener('loaded', function () {
+                        loading.style.display = 'none';
+                    });
                 }
-            }
-        });
 
-        // マーカー検出の処理
-        const markers = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-        markers.forEach(day => {
-            const marker = document.querySelector(`a-marker[url="assets/marker_${day}.patt"]`);
-            if (marker) {
-                // マーカーが見つかったとき
-                marker.addEventListener('markerFound', () => {
-                    console.log(`Marker ${day} found`);
-                    const audio = document.querySelector(`#audio_${day}`);
-                    if (audio) {
-                        audio.currentTime = 0;
-                        audio.play().catch(error => {
-                            console.log('Audio playback error:', error);
+                // マーカーのイベント設定
+                const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+                days.forEach(day => {
+                    const marker = document.querySelector(`a-marker[url="assets/marker_${day}.patt"]`);
+                    if (marker) {
+                        marker.addEventListener('markerFound', function() {
+                            const audio = document.querySelector(`#audio_${day}`);
+                            if (audio) {
+                                audio.currentTime = 0;
+                                audio.play().catch(function(error) {
+                                    console.log(error);
+                                });
+                            }
+                        });
+
+                        marker.addEventListener('markerLost', function() {
+                            const audio = document.querySelector(`#audio_${day}`);
+                            if (audio) {
+                                audio.pause();
+                                audio.currentTime = 0;
+                            }
                         });
                     }
                 });
-                
-                // マーカーが見失われたとき
-                marker.addEventListener('markerLost', () => {
-                    console.log(`Marker ${day} lost`);
-                    const audio = document.querySelector(`#audio_${day}`);
-                    if (audio) {
-                        audio.pause();
-                        audio.currentTime = 0;
-                    }
-                });
-            }
-        });
+            };
 
-        // エラーハンドリング
-        window.addEventListener('error', function(e) {
-            console.error('Error:', e.error);
-        });
-    </script>
-</body>
+            // エラーハンドリング
+            window.addEventListener('error', function(e) {
+                console.error('Error:', e.error);
+                alert('エラーが発生しました。ページをリロードしてください。');
+            });
+        </script>
+    </body>
 </html>
