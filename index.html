@@ -1,89 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-        <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
-        <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
-    </head>
-
-    <body style="margin: 0; overflow: hidden;">
-        <a-scene
-            vr-mode-ui="enabled: false;"
-            loading-screen="enabled: false;"
-            renderer="logarithmicDepthBuffer: true;"
-            arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;"
-            id="scene"
-            embedded
-            gesture-detector
-        >
-            <a-assets>
-                <a-asset-item id="pb_mon" src="assets/pb_mon.glb"></a-asset-item>
-                <a-asset-item id="pb_tue" src="assets/pb_tue.glb"></a-asset-item>
-                <a-asset-item id="pb_wed" src="assets/pb_wed.glb"></a-asset-item>
-                <a-asset-item id="pb_thu" src="assets/pb_thu.glb"></a-asset-item>
-                <a-asset-item id="pb_fri" src="assets/pb_fri.glb"></a-asset-item>
-                <a-asset-item id="pb_sat" src="assets/pb_sat.glb"></a-asset-item>
-                <a-asset-item id="pb_sun" src="assets/pb_sun.glb"></a-asset-item>
-
-                <audio id="audio_mon" src="assets/mon.mp3"></audio>
-                <audio id="audio_tue" src="assets/tue.mp3"></audio>
-                <audio id="audio_wed" src="assets/wed.mp3"></audio>
-                <audio id="audio_thu" src="assets/thu.mp3"></audio>
-                <audio id="audio_fri" src="assets/fri.mp3"></audio>
-                <audio id="audio_sat" src="assets/sat.mp3"></audio>
-                <audio id="audio_sun" src="assets/sun.mp3"></audio>
-            </a-assets>
-
-            <!-- 月曜日 (Monday) -->
-            <a-marker type="pattern" url="assets/marker_mon.patt" emitevents="true">
-                <a-entity gltf-model="#pb_mon" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_mon; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <!-- 火曜日 (Tuesday) -->
-            <a-marker type="pattern" url="assets/marker_tue.patt" emitevents="true">
-                <a-entity gltf-model="#pb_tue" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_tue; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <!-- 水曜日 (Wednesday) -->
-            <a-marker type="pattern" url="assets/marker_wed.patt" emitevents="true">
-                <a-entity gltf-model="#pb_wed" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_wed; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <!-- 木曜日 (Thursday) -->
-            <a-marker type="pattern" url="assets/marker_thu.patt" emitevents="true">
-                <a-entity gltf-model="#pb_thu" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_thu; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <!-- 金曜日 (Friday) -->
-            <a-marker type="pattern" url="assets/marker_fri.patt" emitevents="true">
-                <a-entity gltf-model="#pb_fri" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_fri; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <!-- 土曜日 (Saturday) -->
-            <a-marker type="pattern" url="assets/marker_sat.patt" emitevents="true">
-                <a-entity gltf-model="#pb_sat" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_sat; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <!-- 日曜日 (Sunday) -->
-            <a-marker type="pattern" url="assets/marker_sun.patt" emitevents="true">
-                <a-entity gltf-model="#pb_sun" scale="0.1 0.1 0.1" animation-mixer="loop: repeat" sound="src: #audio_sun; autoplay: false;"></a-entity>
-            </a-marker>
-
-            <a-entity camera></a-entity>
-        </a-scene>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/2.2.1/aframe/build/aframe-ar.min.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden;">
+    <a-scene embedded arjs>
+      <!-- マーカー -->
+      <a-marker preset="hiro">
+        <!-- GLBモデル -->
+        <a-entity gltf-model="path/to/your-model.glb" scale="0.5 0.5 0.5" position="0 0 0" rotation="0 0 0"></a-entity>
         
-        <script>
-            // 各マーカーが見つかったときに音声を再生する
-            const markers = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-            markers.forEach(day => {
-                const marker = document.querySelector(`#marker_${day}`);
-                marker.addEventListener('markerFound', () => {
-                    const audio = document.querySelector(`#audio_${day}`);
-                    audio.play();
-                });
-            });
-        </script>
-    </body>
+        <!-- 音声ファイル -->
+        <a-sound src="path/to/your-audio.mp3" autoplay="true" position="0 0 0"></a-sound>
+      </a-marker>
+      
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
 </html>
