@@ -54,26 +54,23 @@
                 const audio = document.querySelector('#audio-asset');
                 const marker = document.querySelector('#animated-marker');
 
-                let audioPlayed = false;
+                let context = new (window.AudioContext || window.webkitAudioContext)();
+                let source = context.createMediaElementSource(audio);
+
+                source.connect(context.destination);
 
                 marker.addEventListener('markerFound', () => {
-                    if (!audioPlayed) {
-                        alert('音声を再生するには画面をタップしてください。');
-                        document.body.addEventListener('click', () => {
-                            audio.play().then(() => {
-                                audioPlayed = true;
-                            }).catch((error) => {
-                                console.error('Audio playback failed:', error);
-                            });
-                        }, { once: true });
+                    if (context.state === 'suspended') {
+                        context.resume();
                     }
+                    audio.play().catch((error) => {
+                        console.error('Audio playback failed:', error);
+                    });
                 });
 
                 marker.addEventListener('markerLost', () => {
-                    if (audioPlayed) {
-                        audio.pause();
-                        audio.currentTime = 0;
-                    }
+                    audio.pause();
+                    audio.currentTime = 0;
                 });
             });
         </script>
