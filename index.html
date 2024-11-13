@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
         <title>AR Days of Week</title>
         <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
@@ -79,7 +79,7 @@
                     const marker = document.querySelector(`#marker_${day}`);
                     const entity = document.createElement('a-entity');
                     entity.setAttribute('gltf-model', `assets/pb_${day}.glb`);
-                    entity.setAttribute('scale', '0.1 0.1 0.1');
+                    entity.setAttribute('scale', '0.2 0.2 0.2');  // スケールを2倍に
                     entity.setAttribute('position', '0 0 0');
                     
                     // 自動回転を追加
@@ -92,8 +92,8 @@
                     // ジェスチャーによる操作を追加
                     entity.setAttribute('gesture-handler', {
                         rotationFactor: 10,
-                        minScale: 0.05,
-                        maxScale: 0.5
+                        minScale: 0.1,
+                        maxScale: 1.0
                     });
 
                     marker.appendChild(entity);
