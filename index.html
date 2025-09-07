@@ -3,13 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densityDpi=device-dpi" />
-        <title>AR Days of Week</title>
+        <title>AR Days of Week (Improved)</title>
         <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
 
         <script>
+            // 3Dモデルを自動回転させるコンポーネント（変更なし）
             AFRAME.registerComponent('auto-rotate', {
                 schema: {
                     speedX: { type: 'number', default: 0 },
@@ -42,7 +43,7 @@
     </head>
 
     <body style="margin: 0; overflow: hidden;">
-        <div id="message" class="message">マーカーをかざしてください</div>
+        <div id="message" class="message">読み込み中...</div>
 
         <a-scene
             vr-mode-ui="enabled: false"
@@ -51,102 +52,85 @@
             gesture-detector
             arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;">
 
-            <!-- マーカーのみ初期設定 -->
-            <a-marker preset="pattern" type="pattern" url="assets/marker_mon.patt" id="marker_mon"></a-marker>
-            <a-marker preset="pattern" type="pattern" url="assets/marker_tue.patt" id="marker_tue"></a-marker>
-            <a-marker preset="pattern" type="pattern" url="assets/marker_wed.patt" id="marker_wed"></a-marker>
-            <a-marker preset="pattern" type="pattern" url="assets/marker_thu.patt" id="marker_thu"></a-marker>
-            <a-marker preset="pattern" type="pattern" url="assets/marker_fri.patt" id="marker_fri"></a-marker>
-            <a-marker preset="pattern" type="pattern" url="assets/marker_sat.patt" id="marker_sat"></a-marker>
-            <a-marker preset="pattern" type="pattern" url="assets/marker_sun.patt" id="marker_sun"></a-marker>
+            <a-assets>
+                <a-asset-item id="model_mon" src="assets/pb_mon.glb"></a-asset-item>
+                <a-asset-item id="model_tue" src="assets/pb_tue.glb"></a-asset-item>
+                <a-asset-item id="model_wed" src="assets/pb_wed.glb"></a-asset-item>
+                <a-asset-item id="model_thu" src="assets/pb_thu.glb"></a-asset-item>
+                <a-asset-item id="model_fri" src="assets/pb_fri.glb"></a-asset-item>
+                <a-asset-item id="model_sat" src="assets/pb_sat.glb"></a-asset-item>
+                <a-asset-item id="model_sun" src="assets/pb_sun.glb"></a-asset-item>
+
+                <audio id="audio_mon" src="assets/mon.mp3" preload="auto"></audio>
+                <audio id="audio_tue" src="assets/tue.mp3" preload="auto"></audio>
+                <audio id="audio_wed" src="assets/wed.mp3" preload="auto"></audio>
+                <audio id="audio_thu" src="assets/thu.mp3" preload="auto"></audio>
+                <audio id="audio_fri" src="assets/fri.mp3" preload="auto"></audio>
+                <audio id="audio_sat" src="assets/sat.mp3" preload="auto"></audio>
+                <audio id="audio_sun" src="assets/sun.mp3" preload="auto"></audio>
+            </a-assets>
+
+            <a-marker preset="pattern" type="pattern" url="assets/marker_mon.patt" id="marker_mon">
+                <a-entity gltf-model="#model_mon" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
+            <a-marker preset="pattern" type="pattern" url="assets/marker_tue.patt" id="marker_tue">
+                <a-entity gltf-model="#model_tue" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
+            <a-marker preset="pattern" type="pattern" url="assets/marker_wed.patt" id="marker_wed">
+                <a-entity gltf-model="#model_wed" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
+            <a-marker preset="pattern" type="pattern" url="assets/marker_thu.patt" id="marker_thu">
+                <a-entity gltf-model="#model_thu" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
+            <a-marker preset="pattern" type="pattern" url="assets/marker_fri.patt" id="marker_fri">
+                <a-entity gltf-model="#model_fri" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
+            <a-marker preset="pattern" type="pattern" url="assets/marker_sat.patt" id="marker_sat">
+                <a-entity gltf-model="#model_sat" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
+            <a-marker preset="pattern" type="pattern" url="assets/marker_sun.patt" id="marker_sun">
+                <a-entity gltf-model="#model_sun" scale="0.2 0.2 0.2" position="0 0 0" auto-rotate="speedY: 1;" gesture-handler="rotationFactor: 10; minScale: 0.1; maxScale: 1.0;"></a-entity>
+            </a-marker>
 
             <a-entity camera></a-entity>
         </a-scene>
 
         <script>
-            const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-            const loadedModels = new Set();
-            const messageEl = document.getElementById('message');
+            document.addEventListener('DOMContentLoaded', () => {
+                const sceneEl = document.querySelector('a-scene');
+                const messageEl = document.getElementById('message');
 
-            // アセットを動的に読み込む関数
-            async function loadAssets(day) {
-                if (loadedModels.has(day)) return;
-
-                messageEl.textContent = '読み込み中...';
-
-                try {
-                    // 3Dモデルの動的読み込み
-                    const marker = document.querySelector(`#marker_${day}`);
-                    const entity = document.createElement('a-entity');
-                    entity.setAttribute('gltf-model', `assets/pb_${day}.glb`);
-                    entity.setAttribute('scale', '0.2 0.2 0.2');  // スケールを2倍に
-                    entity.setAttribute('position', '0 0 0');
-                    
-                    // 自動回転を追加
-                    entity.setAttribute('auto-rotate', {
-                        speedX: 0,
-                        speedY: 1,
-                        speedZ: 0
-                    });
-                    
-                    // ジェスチャーによる操作を追加
-                    entity.setAttribute('gesture-handler', {
-                        rotationFactor: 10,
-                        minScale: 0.1,
-                        maxScale: 1.0
-                    });
-
-                    marker.appendChild(entity);
-
-                    // 音声の動的読み込み
-                    const audio = new Audio(`assets/${day}.mp3`);
-                    audio.id = `audio_${day}`;
-                    document.body.appendChild(audio);
-
-                    loadedModels.add(day);
+                // シーンの読み込み完了を待ってから処理を開始
+                sceneEl.addEventListener('loaded', () => {
                     messageEl.textContent = 'マーカーをかざしてください';
-                } catch (error) {
-                    console.error('Asset loading error:', error);
-                    messageEl.textContent = '読み込みエラー。再試行してください。';
-                }
-            }
+                });
 
-            // マーカーのイベント設定
-            days.forEach(day => {
-                const marker = document.querySelector(`#marker_${day}`);
-                if (marker) {
-                    marker.addEventListener('markerFound', async function() {
-                        // マーカーが見つかったらアセットを読み込む
-                        await loadAssets(day);
+                const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
-                        // 音声再生
-                        const audio = document.querySelector(`#audio_${day}`);
-                        if (audio) {
+                days.forEach(day => {
+                    const marker = document.querySelector(`#marker_${day}`);
+                    const audio = document.querySelector(`#audio_${day}`);
+
+                    if (marker && audio) {
+                        // マーカーが見つかった時の処理
+                        marker.addEventListener('markerFound', () => {
                             audio.currentTime = 0;
-                            audio.play().catch(console.error);
-                        }
-                    });
+                            audio.play().catch(e => console.error(`[${day}] Audio play failed:`, e));
+                        });
 
-                    marker.addEventListener('markerLost', function() {
-                        const audio = document.querySelector(`#audio_${day}`);
-                        if (audio) {
+                        // マーカーが失われた時の処理
+                        marker.addEventListener('markerLost', () => {
                             audio.pause();
                             audio.currentTime = 0;
-                        }
-                    });
-                }
-            });
+                        });
+                    }
+                });
 
-            // シーンの読み込み完了時
-            const scene = document.querySelector('a-scene');
-            scene.addEventListener('loaded', function() {
-                messageEl.textContent = 'マーカーをかざしてください';
-            });
-
-            // エラーハンドリング
-            window.addEventListener('error', function(e) {
-                console.error('Error:', e.error);
-                messageEl.textContent = 'エラーが発生しました。ページを更新してください。';
+                // グローバルなエラーハンドリング
+                window.addEventListener('error', (e) => {
+                    console.error('An error occurred:', e.error);
+                    messageEl.textContent = 'エラーが発生しました。ページを更新してください。';
+                });
             });
         </script>
     </body>
